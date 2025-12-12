@@ -21,7 +21,7 @@ MODEL_REVISION = "6df6a75822a5779f7bf4a21e765cb77d0383935d"
 hf_cache_vol = modal.Volume.from_name("huggingface-cache", create_if_missing=True)
 vllm_cache_vol = modal.Volume.from_name("vllm-cache", create_if_missing=True)
 
-app = modal.App("lfm-inference")
+app = modal.App("lfm-vllm-inference")
 
 N_GPU = 1
 MINUTES = 60
@@ -37,6 +37,9 @@ VLLM_PORT = 8000
         "/root/.cache/huggingface": hf_cache_vol,
         "/root/.cache/vllm": vllm_cache_vol,
     },
+    # Uncomment for production deployments
+    # min_containers=1,
+    # buffer_containers=1,
 )
 @modal.concurrent(max_inputs=32)
 @modal.web_server(port=VLLM_PORT, startup_timeout=10 * MINUTES)

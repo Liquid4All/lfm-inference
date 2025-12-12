@@ -1,6 +1,6 @@
 # Modal Deployment
 
-## Use `vllm` PyPI package
+## Use `vLLM` PyPI package
 
 Follow the official Modal [documentation](https://modal.com/docs/examples/vllm_inference) on deploying OpenAI-compatible LLM service with vLLM. Make the following changes:
 
@@ -45,3 +45,20 @@ curl https://<modal-deployment-url>/v1/chat/completions \
   "temperature": 0
 }'
 ```
+
+> [!NOTE]
+> Since vLLM takes over 2 min to cold start, if you run the inference server for production, it is recommended to keep a minimum number of warm instances with `min_containers = 1` and `buffer_containers = 1`. See [docs](https://modal.com/docs/guide/cold-start#overprovision-resources-with-min_containers-and-buffer_containers) for details.
+
+## Use `vLLM` docker image
+
+Alternatively, you can use the official `vLLM` docker image to deploy the LFM inference server.
+
+Run `modal deploy deploy-vllm-docker.py` to deploy the service.
+
+This approach provides better LLM performance over the PyPI package approach, as the docker image is pre-built with optimizations for LLM inference.
+
+## Production deployment
+
+- Prefer the `deploy-vllm-docker.py` script.
+- Since vLLM takes over 2 min to cold start, if you run the inference server for production, it is recommended to keep a minimum number of warm instances with `min_containers = 1` and `buffer_containers = 1`. The `buffer_containers` config is necessary because all Modal GPUs are subject to [preemption](https://modal.com/docs/guide/preemption). See [docs](https://modal.com/docs/guide/cold-start#overprovision-resources-with-min_containers-and-buffer_containers) for details about cold start performance tuning.
+- Warm up the vLLM server after deployment by sending a single request. The warm-up process is included in the [deploy-vllm-docker.py](./deploy-vllm-docker.py) script.
