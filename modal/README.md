@@ -5,6 +5,7 @@
 Follow the official Modal [documentation](https://modal.com/docs/examples/vllm_inference) on deploying OpenAI-compatible LLM service with vLLM. Make the following changes:
 
 - Change the `MODEL_NAME` and `MODEL_REVISION` to the latest LFM model. E.g. `https://huggingface.co/LiquidAI/LFM2-8B-A1B`.
+- Optionally, turn off `FAST_BOOT`.
 - Optionally, add these environment variables:
   - `HF_XET_HIGH_PERFORMANCE=1`,
   - `VLLM_USE_V1=1`,
@@ -15,7 +16,7 @@ Follow the official Modal [documentation](https://modal.com/docs/examples/vllm_i
   - `--max-model-len 32768`
   - `--max-num-seqs 600`
   - `--compilation-config '{\"cudagraph_mode\": \"FULL_AND_PIECEWISE\"}'`
-- Collectively, these extra environment variables and launch arguments help to reduce the cold start time and boost the performance of LFM models on GPU instances.
+- Collectively, these optional changes help to reduce the cold start time and boost the performance of LFM models on GPU instances.
 
 The full script can be found in [`deploy-vllm.py`](./deploy-vllm.py).
 
