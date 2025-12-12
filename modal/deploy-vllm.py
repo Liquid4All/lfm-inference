@@ -17,7 +17,7 @@ MODEL_REVISION = "6df6a75822a5779f7bf4a21e765cb77d0383935d"
 hf_cache_vol = modal.Volume.from_name("huggingface-cache", create_if_missing=True)
 vllm_cache_vol = modal.Volume.from_name("vllm-cache", create_if_missing=True)
 
-FAST_BOOT = True
+FAST_BOOT = False
 
 app = modal.App("example-lfm-inference")
 
