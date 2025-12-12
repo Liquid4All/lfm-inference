@@ -15,6 +15,7 @@ Follow the official Modal [documentation](https://modal.com/docs/examples/vllm_i
   - `--max-model-len 32768`
   - `--max-num-seqs 600`
   - `--compilation-config '{\"cudagraph_mode\": \"FULL_AND_PIECEWISE\"}'`
+- Collectively, these extra environment variables and launch arguments help to reduce the cold start time and boost the performance of LFM models on GPU instances.
 
 The full script can be found in [`deploy-vllm.py`](./deploy-vllm.py).
 
