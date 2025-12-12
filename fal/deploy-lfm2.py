@@ -28,7 +28,7 @@ ENV VLLM_USE_V1=1
     machine_type="GPU-H100",
     num_gpus=1,
 )
-def start_fal_server():
+def serve():
     cmd = [
         "vllm",
         "serve", MODEL_NAME,
