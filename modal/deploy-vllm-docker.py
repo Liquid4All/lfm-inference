@@ -10,7 +10,7 @@ CONTAINER_PORT = 8000
 CONCURRENCY = 50
 GPU_MEMORY_UTILIZATION = 0.6
 
-app = modal.App(name=f"lfm-liquid-vllm-inference")
+app = modal.App(name=f"lfm-vllm-docker-inference")
 
 vllm_image = (
     modal.Image.from_registry(
