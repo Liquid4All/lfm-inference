@@ -7,7 +7,7 @@ This approach uses the `vLLM` PyPI package to deploy the LFM inference server. I
 Launch command:
 
 ```sh
-modal deploy deploy-vllm.py
+modal deploy deploy-vllm-pypi.py
 ```
 
 <details>
@@ -49,7 +49,7 @@ This approach provides better performance over the PyPI package approach, as the
 
 - Prefer the `deploy-vllm-docker.py` script.
 - Since vLLM takes over 2 min to cold start, if you run the inference server for production, it is recommended to keep a minimum number of warm instances with `min_containers = 1` and `buffer_containers = 1`. The `buffer_containers` config is necessary because all Modal GPUs are subject to [preemption](https://modal.com/docs/guide/preemption). See [docs](https://modal.com/docs/guide/cold-start#overprovision-resources-with-min_containers-and-buffer_containers) for details about cold start performance tuning.
-- Warm up the vLLM server after deployment by sending a single request. The warm-up process is included in the [deploy-vllm-docker.py](./deploy-vllm-docker.py) script.
+- Warm up the vLLM server after deployment by sending a single request. The warm-up process is included in the [deploy-vllm-docker.py](./deploy-vllm-docker.py) script already.
 
 ## Test commands
 
