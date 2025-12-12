@@ -3,7 +3,7 @@ import os
 
 
 MODEL_NAME = os.environ.get("MODEL_NAME", "LiquidAI/LFM2-8B-A1B")
-print(f"Deploying model: {MODEL_NAME}")
+print(f"Running deployment script for model: {MODEL_NAME}")
 
 vllm_image = (
     modal.Image.from_registry("nvidia/cuda:12.8.0-devel-ubuntu22.04", add_python="3.12")
@@ -17,6 +17,7 @@ vllm_image = (
         "HF_XET_HIGH_PERFORMANCE": "1",
         "VLLM_USE_V1": "1",
         "VLLM_USE_FUSED_MOE_GROUPED_TOPK": "0",
+        "MODEL_NAME": MODEL_NAME,
     })
 )
 
@@ -48,6 +49,7 @@ VLLM_PORT = 8000
 def serve():
     import subprocess
 
+    print(f"Deploying model: {MODEL_NAME}")
     cmd = [
         "vllm",
         "serve",

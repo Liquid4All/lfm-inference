@@ -3,7 +3,7 @@ import os
 
 
 MODEL_NAME = os.environ.get("MODEL_NAME", "LiquidAI/LFM2-8B-A1B")
-print(f"Deploying model: {MODEL_NAME}")
+print(f"Running deployment script for model: {MODEL_NAME}")
 
 STARTUP_TIMEOUT_SECONDS = 400
 CONTAINER_PORT = 8000
@@ -29,6 +29,7 @@ vllm_image = (
     .env({
         "HF_HUB_ENABLE_HF_TRANSFER": "1",
         "VLLM_USE_V1": "1",
+        "MODEL_NAME": MODEL_NAME,
     })
 )
 
