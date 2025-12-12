@@ -4,6 +4,7 @@
 
 - Follow the official Modal [documentation](https://modal.com/docs/examples/vllm_inference) on deploying OpenAI-compatible LLM service with vLLM.
 - Change the `MODEL_NAME` and `MODEL_REVISION` to the latest LFM model. E.g. `https://huggingface.co/LiquidAI/LFM2-8B-A1B`.
+- The full script can be found in [`vllm.py`](./vllm.py).
 - Run `modal deploy vllm.py` to deploy the service.
 - Test the service:
 
