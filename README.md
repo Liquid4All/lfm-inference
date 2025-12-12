@@ -4,6 +4,7 @@ This repository contains examples of deploying inference servers for Liquid Foun
 
 ## Deployments
 
+- [Baseten](./baseten)
 - [Modal](./modal)
 
 ## License

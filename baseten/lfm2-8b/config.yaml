@@ -1,0 +1,43 @@
+base_image:
+  image: vllm/vllm-openai:v0.12.0
+
+docker_server:
+  start_command: |
+    sh -c "
+      export HF_HUB_ENABLE_HF_TRANSFER=1 &&
+      export VLLM_USE_V1=1 &&
+      export MODEL_NAME=${MODEL_NAME:-LiquidAI/LFM2-8B-A1B} &&
+      HF_TOKEN=$(cat /secrets/hf_access_token) &&
+      vllm serve $MODEL_NAME
+      --port 8000
+      --tensor-parallel-size 1
+      --dtype bfloat16
+      --gpu-memory-utilization 0.6
+      --max-model-len 32768
+      --max-num-seqs 600
+      --compilation-config '{\"cudagraph_mode\": \"FULL_AND_PIECEWISE\"}'"
+
+  readiness_endpoint: /health
+  liveness_endpoint: /health
+
+  predict_endpoint: /v1/chat/completions
+  server_port: 8000
+
+resources:
+  accelerator: H100
+  use_gpu: true
+  cpu: 4000m
+  memory: 16Gi
+
+model_name: lfm2-8b
+
+environment_variables:
+  HF_HUB_ENABLE_HF_TRANSFER: "1"
+  VLLM_USE_V1: "1"
+  MODEL_NAME: "LiquidAI/LFM2-8B-A1B"
+
+secrets:
+  hf_access_token: null
+
+runtime:
+  predict_concurrency: 50
