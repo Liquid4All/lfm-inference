@@ -2,13 +2,13 @@
 
 ## Use `vLLM` PyPI package
 
+This approach uses the `vLLM` PyPI package to deploy the LFM inference server. It is based on the official Modal [example](https://modal.com/docs/examples/vllm_inference) for deploying OpenAI-compatible LLM service with vLLM. A few modifications are made to optimize for LFM models.
+
 Launch command:
 
 ```sh
 modal deploy deploy-vllm.py
 ```
-
-This approach uses the `vLLM` PyPI package to deploy the LFM inference server. It is based on the official Modal [example](https://modal.com/docs/examples/vllm_inference) for deploying OpenAI-compatible LLM service with vLLM. A few modifications are made to optimize for LFM models.
 
 <details>
 <summary>(Click to see detailed modifications)</summary>
@@ -28,11 +28,11 @@ This approach uses the `vLLM` PyPI package to deploy the LFM inference server. I
   - `--max-model-len 32768`
   - `--max-num-seqs 600`
   - `--compilation-config '{\"cudagraph_mode\": \"FULL_AND_PIECEWISE\"}'`
-- Collectively, these optional changes help to reduce the cold start time and boost the performance of LFM models on GPU instances.
-
 </details>
 
 ## Use `vLLM` docker image
+
+Alternatively, you can use the pre-built `vLLM` docker image to deploy the LFM inference server.
 
 Launch command:
 
@@ -40,9 +40,10 @@ Launch command:
 modal deploy deploy-vllm-docker.py
 ```
 
-Alternatively, you can use the pre-built `vLLM` docker image to deploy the LFM inference server.
-
 This approach provides better performance over the PyPI package approach, as the docker image is pre-built with optimizations for inference.
+
+> [!NOTE]
+> This is the recommended approach for production deployment.
 
 ## Production deployment
 
