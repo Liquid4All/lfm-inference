@@ -4,7 +4,10 @@
 
 Follow the official Modal [documentation](https://modal.com/docs/examples/vllm_inference) on deploying OpenAI-compatible LLM service with vLLM. Make the following changes:
 
-- Change the `MODEL_NAME` and `MODEL_REVISION` to the latest LFM model. E.g. [`LFM2-8B-A1B`](https://huggingface.co/LiquidAI/LFM2-8B-A1B).
+- Change the `MODEL_NAME` and `MODEL_REVISION` to the latest LFM model.
+  - E.g. for[`LFM2-8B-A1B`](https://huggingface.co/LiquidAI/LFM2-8B-A1B):
+    - `MODEL_NAME = "LiquidAI/LFM2-8B-A1B"`
+    - `MODEL_REVISION = "6df6a75822a5779f7bf4a21e765cb77d0383935d"`
 - Optionally, turn off `FAST_BOOT`.
 - Optionally, add these environment variables:
   - `HF_XET_HIGH_PERFORMANCE=1`,
