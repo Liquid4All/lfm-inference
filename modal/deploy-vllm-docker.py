@@ -76,7 +76,7 @@ def serve():
     print(f"Command: {cmd}")
     proc = subprocess.Popen(cmd, shell=True)
 
-    # Wait for vLLM to become healthy
+    # Wait for vLLM to become healthy (optional, only needed for warmup)
     max_wait = STARTUP_TIMEOUT_SECONDS - 10
     start_time = time.time()
     print(f"Waiting for model {MODEL_SLUG} to launch on port {CONTAINER_PORT} at: {start_time}")
@@ -97,7 +97,7 @@ def serve():
         f"vLLM for model {MODEL_SLUG} launched in {time.time() - start_time:.2f} seconds"
     )
 
-    # Warmup vLLM
+    # Warmup vLLM (optional)
     print(f"Warming up model {MODEL_SLUG} on port {CONTAINER_PORT}...")
     try:
         response = requests.post(
