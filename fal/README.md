@@ -39,3 +39,6 @@ curl -X POST https://fal.run/<org-id>/<app-id>/v1/chat/completions \
   "temperature": 0
 }'
 ```
+
+> [!NOTE]
+> Note that Fal endpoints expects the `Key` prefix in the `Authorization` header.
