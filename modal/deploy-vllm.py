@@ -8,7 +8,11 @@ vllm_image = (
         "huggingface-hub==0.36.0",
         "flashinfer-python==0.5.2",
     )
-    .env({"HF_XET_HIGH_PERFORMANCE": "1"})
+    .env({
+        "HF_XET_HIGH_PERFORMANCE": "1",
+        "VLLM_USE_V1": "1",
+        "VLLM_USE_FUSED_MOE_GROUPED_TOPK": "0",
+    })
 )
 
 MODEL_NAME = "LiquidAI/LFM2-8B-A1B"
