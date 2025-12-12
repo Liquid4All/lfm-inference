@@ -46,15 +46,10 @@ def serve():
         "serve",
         "--uvicorn-log-level=info",
         MODEL_NAME,
-        "--revision",
-        MODEL_REVISION,
-        "--served-model-name",
-        MODEL_NAME,
-        "llm",
-        "--host",
-        "0.0.0.0",
-        "--port",
-        str(VLLM_PORT),
+        f"--revision {MODEL_REVISION}",
+        f"--served-model-name {MODEL_NAME}",
+        "--host 0.0.0.0",
+        f"--port {str(VLLM_PORT)}",
     ]
 
     cmd += ["--enforce-eager" if FAST_BOOT else "--no-enforce-eager"]
