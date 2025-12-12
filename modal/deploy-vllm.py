@@ -17,8 +17,6 @@ MODEL_REVISION = "6df6a75822a5779f7bf4a21e765cb77d0383935d"
 hf_cache_vol = modal.Volume.from_name("huggingface-cache", create_if_missing=True)
 vllm_cache_vol = modal.Volume.from_name("vllm-cache", create_if_missing=True)
 
-FAST_BOOT = False
-
 app = modal.App("example-lfm-inference")
 
 N_GPU = 1
@@ -50,9 +48,14 @@ def serve():
         f"--served-model-name {MODEL_NAME}",
         "--host 0.0.0.0",
         f"--port {str(VLLM_PORT)}",
+        # extra arguments
+        '--dtype bfloat16',
+        '--gpu-memory-utilization 0.6',
+        '--max-model-len 32768',
+        '--max-num-seqs 600',
+        "--compilation-config '{\"cudagraph_mode\": \"FULL_AND_PIECEWISE\"}'",
     ]
 
-    cmd += ["--enforce-eager" if FAST_BOOT else "--no-enforce-eager"]
     cmd += ["--tensor-parallel-size", str(N_GPU)]
 
     print(cmd)
