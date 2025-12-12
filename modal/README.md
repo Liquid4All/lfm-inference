@@ -55,7 +55,7 @@ Alternatively, you can use the official `vLLM` docker image to deploy the LFM in
 
 Run `modal deploy deploy-vllm-docker.py` to deploy the service.
 
-This approach provides better LLM performance over the PyPI package approach, as the docker image is pre-built with optimizations for LLM inference.
+This approach provides better performance over the PyPI package approach, as the docker image is pre-built with optimizations for inference.
 
 ## Production deployment
 
