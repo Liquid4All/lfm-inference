@@ -31,4 +31,4 @@ curl -X POST https://<model-id>.api.baseten.co/environments/production/predict \
 ```
 
 > [!NOTE]
-> Note that Baseten endpoints expects the `Api-Key` prefix in the `Authorization` header.
+> Note that Baseten endpoints expect the `Api-Key` prefix in the `Authorization` header.
