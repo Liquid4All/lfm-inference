@@ -7,6 +7,8 @@ You can use the `vLLM` docker image `vllm/vllm-openai` to deploy LFM.
 Launch command:
 
 ```sh
+cd modal
+
 # deploy LFM2 8B MoE model
 modal deploy deploy-vllm-docker.py
 
@@ -26,6 +28,8 @@ Alternatively, you can also use the `vLLM` PyPI package to deploy LFM. This appr
 Launch command:
 
 ```sh
+cd modal
+
 # deploy LFM2 8B MoE model
 modal deploy deploy-vllm-pypi.py
 
