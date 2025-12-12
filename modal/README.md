@@ -7,8 +7,14 @@ You can use the `vLLM` docker image `vllm/vllm-openai` to deploy LFM.
 Launch command:
 
 ```sh
+# deploy LFM2 8B MoE model
 modal deploy deploy-vllm-docker.py
+
+# deploy other LFM2 model, MODEL_NAME defaults to LiquidAI/LFM2-8B-A1B
+MODEL_NAME=LiquidAI/<model-slug> modal deploy deploy-vllm-docker.py
 ```
+
+See full list of open source LFM models on [Hugging Face](https://huggingface.co/collections/LiquidAI/lfm2).
 
 > [!NOTE]
 > This is the recommended approach for production deployment.
@@ -20,7 +26,11 @@ Alternatively, you can also use the `vLLM` PyPI package to deploy LFM. This appr
 Launch command:
 
 ```sh
+# deploy LFM2 8B MoE model
 modal deploy deploy-vllm-pypi.py
+
+# deploy any LFM2 model, MODEL_NAME defaults to LiquidAI/LFM2-8B-A1B
+MODEL_NAME=LiquidAI/<model-slug> modal deploy deploy-vllm-pypi.py
 ```
 
 <details>

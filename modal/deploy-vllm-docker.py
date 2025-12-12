@@ -1,9 +1,9 @@
-import os
 import modal
+import os
 
 
-MODEL_SLUG = os.environ.get("MODEL_SLUG", "LiquidAI/LFM2-8B-A1B")
-print(f"Deploying model: {MODEL_SLUG}")
+MODEL_NAME = os.environ.get("MODEL_NAME", "LiquidAI/LFM2-8B-A1B")
+print(f"Deploying model: {MODEL_NAME}")
 
 STARTUP_TIMEOUT_SECONDS = 400
 CONTAINER_PORT = 8000
@@ -61,10 +61,10 @@ def serve():
     import time
 
     # Launch vLLM
-    print(f"Launching vLLM for model {MODEL_SLUG} on port {CONTAINER_PORT}...")
+    print(f"Launching vLLM for model {MODEL_NAME} on port {CONTAINER_PORT}...")
     args = [
         f"--port {CONTAINER_PORT}",
-        f"--model {MODEL_SLUG}",
+        f"--model {MODEL_NAME}",
         "--tensor-parallel-size 1",
         "--dtype bfloat16",
         f"--gpu-memory-utilization {GPU_MEMORY_UTILIZATION}",
@@ -79,7 +79,7 @@ def serve():
     # Wait for vLLM to become healthy (optional, only needed for warmup)
     max_wait = STARTUP_TIMEOUT_SECONDS - 10
     start_time = time.time()
-    print(f"Waiting for model {MODEL_SLUG} to launch on port {CONTAINER_PORT} at: {start_time}")
+    print(f"Waiting for model {MODEL_NAME} to launch on port {CONTAINER_PORT} at: {start_time}")
     while time.time() - start_time < max_wait:
         try:
             response = requests.get(f"http://localhost:{CONTAINER_PORT}/health", timeout=5)
@@ -90,20 +90,20 @@ def serve():
             pass
         time.sleep(10)
     else:
-        print(f"Model {MODEL_SLUG} failed to become healthy in time")
+        print(f"Model {MODEL_NAME} failed to become healthy in time")
         proc.kill()
         raise TimeoutError("Health check timeout")
     print(
-        f"vLLM for model {MODEL_SLUG} launched in {time.time() - start_time:.2f} seconds"
+        f"vLLM for model {MODEL_NAME} launched in {time.time() - start_time:.2f} seconds"
     )
 
     # Warmup vLLM (optional)
-    print(f"Warming up model {MODEL_SLUG} on port {CONTAINER_PORT}...")
+    print(f"Warming up model {MODEL_NAME} on port {CONTAINER_PORT}...")
     try:
         response = requests.post(
             f"http://localhost:{CONTAINER_PORT}/v1/chat/completions",
             json={
-                "model": MODEL_SLUG,
+                "model": MODEL_NAME,
                 "messages": [{"role": "user", "content": "Hello"}],
                 "max_tokens": 10,
             },
@@ -114,7 +114,7 @@ def serve():
         content = (
             result.get("choices", [{}])[0].get("message", {}).get("content", "N/A")
         )
-        print(f"Warmup complete for {MODEL_SLUG}. Response: {content}")
+        print(f"Warmup complete for {MODEL_NAME}. Response: {content}")
     except Exception as e:
-        print(f"Warning: Warmup failed for {MODEL_SLUG}: {str(e)}")
+        print(f"Warning: Warmup failed for {MODEL_NAME}: {str(e)}")
         print("Continuing startup despite warmup failure...")

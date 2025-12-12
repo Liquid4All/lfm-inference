@@ -1,4 +1,9 @@
 import modal
+import os
+
+
+MODEL_NAME = os.environ.get("MODEL_NAME", "LiquidAI/LFM2-8B-A1B")
+print(f"Deploying model: {MODEL_NAME}")
 
 vllm_image = (
     modal.Image.from_registry("nvidia/cuda:12.8.0-devel-ubuntu22.04", add_python="3.12")
@@ -14,9 +19,6 @@ vllm_image = (
         "VLLM_USE_FUSED_MOE_GROUPED_TOPK": "0",
     })
 )
-
-MODEL_NAME = "LiquidAI/LFM2-8B-A1B"
-MODEL_REVISION = "6df6a75822a5779f7bf4a21e765cb77d0383935d"
 
 hf_cache_vol = modal.Volume.from_name("huggingface-cache", create_if_missing=True)
 vllm_cache_vol = modal.Volume.from_name("vllm-cache", create_if_missing=True)
@@ -51,7 +53,6 @@ def serve():
         "serve",
         "--uvicorn-log-level=info",
         MODEL_NAME,
-        f"--revision {MODEL_REVISION}",
         f"--served-model-name {MODEL_NAME}",
         "--host 0.0.0.0",
         f"--port {str(VLLM_PORT)}",
