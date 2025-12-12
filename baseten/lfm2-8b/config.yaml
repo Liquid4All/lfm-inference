@@ -10,6 +10,12 @@ model_metadata:
     max_model_len: 32768
     max_num_seqs: 600
     compilation_config: '{"cudagraph_mode": "FULL_AND_PIECEWISE"}'
+  example_model_input:
+    messages:
+      - role: user
+        content: "What is the melting temperature of silver?"
+    max_tokens: 100
+    temperature: 0
 docker_server:
   start_command: sh -c "vllm serve LiquidAI/LFM2-8B-A1B"
   readiness_endpoint: /health
