@@ -23,7 +23,7 @@ Follow the official Modal [documentation](https://modal.com/docs/examples/vllm_i
 
 The full script can be found in [`deploy-vllm.py`](./deploy-vllm.py).
 
-Run `modal deploy vllm.py` to deploy the service.
+Run `modal deploy deploy-vllm.py` to deploy the service.
 
 Test the service with the following `curl` command (replace `<modal-deployment-url>` with your actual deployment URL):
 
