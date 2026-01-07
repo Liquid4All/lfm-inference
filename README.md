@@ -35,6 +35,7 @@ Adjust these settings based on your hardware:
 
 ```
 --gpu-memory-utilization
+--max-num-seqs
 --kv-cache-memory-bytes
 ```
 
