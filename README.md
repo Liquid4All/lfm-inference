@@ -39,6 +39,40 @@ Adjust these settings based on your hardware:
 --kv-cache-memory-bytes
 ```
 
+## Recommended generation parameters
+
+**Text models**
+
+| Parameter | Value |
+| --- | --- |
+| `temperature` | 0.3 |
+| `min_p` | 0.15 |
+| `repetition_penalty` | 1.05 |
+
+**Text instruct models**
+
+| Parameter | Value |
+| --- | --- |
+| `temperature` | 0.1 |
+| `top_p` | 0.1 |
+| `top_k` | 50 |
+| `repetition_penalty` | 1.05 |
+
+**VL models**
+
+| Parameter | Value |
+| --- | --- |
+| `temperature` | 0.1 |
+| `min_p` | 0.15 |
+| `repetition_penalty` | 1.05 |
+
+**Nano models**
+
+| Parameter | Value |
+| --- | --- |
+| `temperature` | 0.0 |
+| `min_p` | 1.0 |
+
 ## License
 
 [MIT](./LICENSE)
