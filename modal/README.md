@@ -1,5 +1,12 @@
 # Modal Deployment
 
+## Install
+
+```sh
+cd modal
+pip install modal
+```
+
 ## Use `vLLM` PyPI package
 
 Use the `vLLM` PyPI package to deploy LFM. This approach is based on the Modal [example](https://modal.com/docs/examples/vllm_inference) for deploying OpenAI-compatible LLM service with vLLM, with a few modifications.
@@ -7,8 +14,6 @@ Use the `vLLM` PyPI package to deploy LFM. This approach is based on the Modal [
 Launch command:
 
 ```sh
-cd modal
-
 # deploy LFM2 8B MoE model
 modal deploy deploy-vllm-pypi.py
 
@@ -26,8 +31,6 @@ Alternatively, you can use the pre-built `vLLM` docker image `vllm/vllm-openai` 
 Launch command:
 
 ```sh
-cd modal
-
 # deploy LFM2 8B MoE model
 modal deploy deploy-vllm-docker.py
 

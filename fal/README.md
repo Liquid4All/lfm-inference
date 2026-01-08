@@ -1,5 +1,12 @@
 # Fal Deployment
 
+## Install
+
+```sh
+cd fal
+pip install fal
+```
+
 ## Deployment
 
 ```sh

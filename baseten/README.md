@@ -1,5 +1,12 @@
 # Baseten deployment
 
+## Install
+
+```sh
+cd baseten
+pip install truss
+```
+
 ## Deployment
 
 The deployment script is based on Baseten's [documentation](https://docs.baseten.co/examples/vllm) of `Run any LLM with vLLM`.
@@ -7,8 +14,6 @@ The deployment script is based on Baseten's [documentation](https://docs.baseten
 Launch command:
 
 ```sh
-cd basten
-pip install truss
 truss push lfm2-8b --publish
 ```
 
