@@ -17,7 +17,7 @@ MODEL_NAME=LiquidAI/<model-slug> modal deploy deploy-vllm-pypi.py
 ```
 
 > [!NOTE]
-> This deployment creates both CPU and GPU memory snapshots. The first cold start takes about 3.5 - 5 min, longer than that without the snapshot. But subsequent cold starts are much faster, around 30 seconds.
+> This deployment enables both CPU and GPU memory snapshots. The first cold start takes about 3.5 - 5 min, which is longer than the time without the snapshot. But **subsequent cold starts are much faster, around 30 seconds**.
 
 ## Use `vLLM` docker image
 
