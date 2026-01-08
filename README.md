@@ -73,6 +73,16 @@ Adjust these settings based on your hardware:
 | `temperature` | 0.0 |
 | `min_p` | 1.0 |
 
+## Local development
+
+Lint and format code:
+
+```
+uv sync
+uv run ruff check . --fix
+uv run ruff format .
+```
+
 ## License
 
 [MIT](./LICENSE)
