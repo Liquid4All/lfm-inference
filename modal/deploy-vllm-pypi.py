@@ -39,7 +39,7 @@ with vllm_image.imports():
 @app.cls(
     image=vllm_image,
     gpu=f"H100:{N_GPU}",
-    scaledown_window=15 * MINUTES,
+    scaledown_window=5 * MINUTES,
     timeout=10 * MINUTES,
     volumes={
         "/root/.cache/huggingface": hf_cache_vol,
@@ -52,7 +52,7 @@ with vllm_image.imports():
     # buffer_containers=1,
 )
 @modal.concurrent(max_inputs=32)
-class LfmVllmInference():
+class LfmVllmInference:
 
     @modal.enter(snap=True)
     def serve(self):
