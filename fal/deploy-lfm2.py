@@ -1,12 +1,11 @@
 import os
-
-MODEL_NAME = os.environ.get("MODEL_NAME", "LiquidAI/LFM2-8B-A1B")
+import subprocess
+import sys
 
 import fal
 from fal import ContainerImage
-import sys
-import subprocess
 
+MODEL_NAME = os.environ.get("MODEL_NAME", "LiquidAI/LFM2-8B-A1B")
 PY_VERSION = ".".join(str(x) for x in sys.version_info[:2])
 
 DOCKERFILE_STR = f"""
@@ -31,14 +30,23 @@ ENV VLLM_USE_V1=1
 def serve():
     cmd = [
         "vllm",
-        "serve", MODEL_NAME,
-        "--host", "0.0.0.0",
-        "--port", "8000",
-        "--tensor-parallel-size", "1",
-        "--dtype", "bfloat16",
-        "--gpu-memory-utilization", "0.6",
-        "--max-model-len", "32768",
-        "--max-num-seqs", "600",
-        "--compilation-config", '{"cudagraph_mode": "FULL_AND_PIECEWISE"}',
+        "serve",
+        MODEL_NAME,
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8000",
+        "--tensor-parallel-size",
+        "1",
+        "--dtype",
+        "bfloat16",
+        "--gpu-memory-utilization",
+        "0.6",
+        "--max-model-len",
+        "32768",
+        "--max-num-seqs",
+        "600",
+        "--compilation-config",
+        '{"cudagraph_mode": "FULL_AND_PIECEWISE"}',
     ]
     subprocess.run(cmd)
