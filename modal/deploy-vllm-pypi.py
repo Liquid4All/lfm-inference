@@ -1,6 +1,6 @@
-import modal
 import os
 
+import modal
 
 MODEL_NAME = os.environ.get("MODEL_NAME", "LiquidAI/LFM2-8B-A1B")
 print(f"Running deployment script for model: {MODEL_NAME}")
@@ -13,13 +13,15 @@ vllm_image = (
         "huggingface-hub==0.36.0",
         "flashinfer-python==0.5.2",
     )
-    .env({
-        "HF_XET_HIGH_PERFORMANCE": "1",
-        "VLLM_USE_FUSED_MOE_GROUPED_TOPK": "0",
-        "MODEL_NAME": MODEL_NAME,
-        "TORCH_CPP_LOG_LEVEL": "FATAL",
-        "VLLM_SERVER_DEV_MODE": "1",
-    })
+    .env(
+        {
+            "HF_XET_HIGH_PERFORMANCE": "1",
+            "VLLM_USE_FUSED_MOE_GROUPED_TOPK": "0",
+            "MODEL_NAME": MODEL_NAME,
+            "TORCH_CPP_LOG_LEVEL": "FATAL",
+            "VLLM_SERVER_DEV_MODE": "1",
+        }
+    )
 )
 
 hf_cache_vol = modal.Volume.from_name("huggingface-cache", create_if_missing=True)
@@ -34,6 +36,7 @@ VLLM_PORT = 8000
 with vllm_image.imports():
     import subprocess
     import time
+
     import requests
 
 
@@ -54,10 +57,8 @@ with vllm_image.imports():
 )
 @modal.concurrent(max_inputs=32)
 class LfmVllmInference:
-
     @modal.enter(snap=True)
     def serve(self):
-
         print(f"Deploying model: {MODEL_NAME}")
         cmd = [
             "vllm",
@@ -68,11 +69,11 @@ class LfmVllmInference:
             "--host 0.0.0.0",
             f"--port {str(VLLM_PORT)}",
             # extra arguments
-            '--dtype bfloat16',
-            '--gpu-memory-utilization 0.6',
-            '--max-model-len 32768',
-            '--max-num-seqs 600',
-            '--enable-sleep-mode',
+            "--dtype bfloat16",
+            "--gpu-memory-utilization 0.6",
+            "--max-model-len 32768",
+            "--max-num-seqs 600",
+            "--enable-sleep-mode",
         ]
 
         cmd += ["--tensor-parallel-size", str(N_GPU)]
@@ -145,22 +146,23 @@ class LfmVllmInference:
                 "messages": [
                     {
                         "role": "user",
-                        "content": "What is the melting temperature of silver?"
+                        "content": "What is the melting temperature of silver?",
                     }
                 ],
                 "max_tokens": 256,
-                "temperature": 0
+                "temperature": 0,
             }
 
             for i in range(num_requests):
-                print(f"Warmup request {i+1}/4...")
+                print(f"Warmup request {i + 1}/4...")
                 response = requests.post(url, json=payload, timeout=timeout)
-                print(f"Warmup request {i+1} completed with status: {response.status_code}")
+                print(
+                    f"Warmup request {i + 1} completed with status: {response.status_code}"
+                )
 
             print("Warmup complete!")
         except Exception as e:
             print(f"Warmup failed: {e}")
-
 
     @modal.web_server(port=VLLM_PORT, startup_timeout=10 * MINUTES)
     def webserver(self):
