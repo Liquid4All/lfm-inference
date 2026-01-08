@@ -1,6 +1,6 @@
-import modal
 import os
 
+import modal
 
 MODEL_NAME = os.environ.get("MODEL_NAME", "LiquidAI/LFM2-8B-A1B")
 print(f"Running deployment script for model: {MODEL_NAME}")
@@ -10,7 +10,7 @@ CONTAINER_PORT = 8000
 CONCURRENCY = 50
 GPU_MEMORY_UTILIZATION = 0.6
 
-app = modal.App(name=f"lfm-vllm-docker-inference")
+app = modal.App(name="lfm-vllm-docker-inference")
 
 vllm_image = (
     modal.Image.from_registry(
@@ -26,11 +26,13 @@ vllm_image = (
         # https://modal.com/docs/guide/existing-images#entrypoint
         "ENTRYPOINT []",
     )
-    .env({
-        "HF_HUB_ENABLE_HF_TRANSFER": "1",
-        "VLLM_USE_V1": "1",
-        "MODEL_NAME": MODEL_NAME,
-    })
+    .env(
+        {
+            "HF_HUB_ENABLE_HF_TRANSFER": "1",
+            "VLLM_USE_V1": "1",
+            "MODEL_NAME": MODEL_NAME,
+        }
+    )
 )
 
 hf_cache_vol = modal.Volume.from_name("huggingface-cache", create_if_missing=True)
@@ -57,9 +59,10 @@ vllm_cache_vol = modal.Volume.from_name("vllm-cache", create_if_missing=True)
 @modal.concurrent(max_inputs=CONCURRENCY, target_inputs=int(CONCURRENCY / 2))
 @modal.web_server(CONTAINER_PORT, startup_timeout=STARTUP_TIMEOUT_SECONDS)
 def serve():
-    import requests
     import subprocess
     import time
+
+    import requests
 
     # Launch vLLM
     print(f"Launching vLLM for model {MODEL_NAME} on port {CONTAINER_PORT}...")
@@ -69,9 +72,9 @@ def serve():
         "--tensor-parallel-size 1",
         "--dtype bfloat16",
         f"--gpu-memory-utilization {GPU_MEMORY_UTILIZATION}",
-        f"--max-model-len 32768",
-        f"--max-num-seqs 600",
-        "--compilation-config '{\"cudagraph_mode\": \"FULL_AND_PIECEWISE\"}'",
+        "--max-model-len 32768",
+        "--max-num-seqs 600",
+        '--compilation-config \'{"cudagraph_mode": "FULL_AND_PIECEWISE"}\'',
     ]
     cmd = f"python -m vllm.entrypoints.openai.api_server {' '.join(args)}"
     print(f"Command: {cmd}")
@@ -80,10 +83,14 @@ def serve():
     # Wait for vLLM to become healthy (optional, only needed for warmup)
     max_wait = STARTUP_TIMEOUT_SECONDS - 10
     start_time = time.time()
-    print(f"Waiting for model {MODEL_NAME} to launch on port {CONTAINER_PORT} at: {start_time}")
+    print(
+        f"Waiting for model {MODEL_NAME} to launch on port {CONTAINER_PORT} at: {start_time}"
+    )
     while time.time() - start_time < max_wait:
         try:
-            response = requests.get(f"http://localhost:{CONTAINER_PORT}/health", timeout=5)
+            response = requests.get(
+                f"http://localhost:{CONTAINER_PORT}/health", timeout=5
+            )
             if response.status_code == 200:
                 print("Application is healthy!")
                 break
