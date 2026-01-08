@@ -21,7 +21,7 @@ MODEL_NAME=LiquidAI/<model-slug> modal deploy deploy-vllm-pypi.py
 
 ## Use `vLLM` docker image
 
-Alternative, you can use the pre-built `vLLM` docker image `vllm/vllm-openai` to deploy LFM.
+Alternatively, you can use the pre-built `vLLM` docker image `vllm/vllm-openai` to deploy LFM.
 
 Launch command:
 
