@@ -16,6 +16,7 @@ vllm_image = (
     .env({
         "HF_XET_HIGH_PERFORMANCE": "1",
         "VLLM_USE_FUSED_MOE_GROUPED_TOPK": "0",
+        "MODEL_NAME": MODEL_NAME,
         "TORCH_CPP_LOG_LEVEL": "FATAL",
         "VLLM_SERVER_DEV_MODE": "1",
     })
