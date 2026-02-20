@@ -3,7 +3,7 @@ import os
 import modal
 
 MODEL_NAME = os.environ.get("MODEL_NAME", "LiquidAI/LFM2-8B-A1B")
-print(f"Running deployment script for model: {MODEL_NAME}")
+print(f"Running deployment script (no sleep mode) for model: {MODEL_NAME}")
 
 STARTUP_TIMEOUT_SECONDS = 400
 CONTAINER_PORT = 8000
@@ -14,13 +14,14 @@ app = modal.App(name="lfm-vllm-docker-inference")
 
 vllm_image = (
     modal.Image.from_registry(
-        "vllm/vllm-openai:v0.12.0",
+        "vllm/vllm-openai:v0.15.1",
         secret=modal.Secret.from_name("dockerhub"),
     )
     .run_commands(
         "ln -sf /usr/bin/python3.12 /usr/local/bin/python",
         "ln -sf /usr/bin/python3.12 /usr/local/bin/python3",
     )
+    .pip_install("transformers==5.1.0")
     .dockerfile_commands(
         # Clear the entrypoint. Reference:
         # https://modal.com/docs/guide/existing-images#entrypoint
