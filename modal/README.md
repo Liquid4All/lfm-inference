@@ -7,23 +7,6 @@ cd modal
 pip install modal
 ```
 
-## Use `vLLM` PyPI package
-
-Use the `vLLM` PyPI package to deploy LFM. This approach is based on the Modal [example](https://modal.com/docs/examples/vllm_inference) for deploying OpenAI-compatible LLM service with vLLM, with a few modifications.
-
-Launch command:
-
-```sh
-# deploy LFM2 8B MoE model
-modal deploy deploy-vllm-pypi.py
-
-# deploy any LFM2 model, MODEL_NAME defaults to LiquidAI/LFM2-8B-A1B
-MODEL_NAME=LiquidAI/<model-slug> modal deploy deploy-vllm-pypi.py
-```
-
-> [!NOTE]
-> This deployment enables both CPU and GPU memory snapshots. The first cold start takes about 3.5 - 5 min, which is longer than the time without the snapshot. But **subsequent cold starts are much faster, around 30 seconds**.
-
 ## Use `vLLM` docker image
 
 Alternatively, you can use the pre-built `vLLM` docker image `vllm/vllm-openai` to deploy LFM.
@@ -39,6 +22,21 @@ MODEL_NAME=LiquidAI/<model-slug> modal deploy deploy-vllm-docker.py
 ```
 
 See full list of open source LFM models on [Hugging Face](https://huggingface.co/collections/LiquidAI/lfm2).
+
+## Use `vLLM` with sleep mode
+
+Launch command:
+
+```sh
+# deploy LFM2 8B MoE model
+modal deploy deploy-vllm-with-sleep.py
+
+# deploy any LFM2 model, MODEL_NAME defaults to LiquidAI/LFM2-8B-A1B
+MODEL_NAME=LiquidAI/<model-slug> modal deploy deploy-vllm-with-sleep.py
+```
+
+> [!NOTE]
+> This deployment enables both CPU and GPU memory snapshots. The first cold start takes about 3.5 - 5 min, which is longer than the time without the snapshot. But **subsequent cold starts are much faster, around 30 seconds**.
 
 ## Test commands
 

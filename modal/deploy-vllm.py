@@ -3,7 +3,7 @@ import os
 import modal
 
 MODEL_NAME = os.environ.get("MODEL_NAME", "LiquidAI/LFM2-8B-A1B")
-print(f"Running deployment script for model: {MODEL_NAME}")
+print(f"Running deployment script (no sleep mode) for model: {MODEL_NAME}")
 
 STARTUP_TIMEOUT_SECONDS = 400
 CONTAINER_PORT = 8000

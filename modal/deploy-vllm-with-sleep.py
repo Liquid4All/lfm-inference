@@ -3,16 +3,22 @@ import os
 import modal
 
 MODEL_NAME = os.environ.get("MODEL_NAME", "LiquidAI/LFM2-8B-A1B")
-print(f"Running deployment script for model: {MODEL_NAME}")
+print(f"Running deployment script (with sleep mode) for model: {MODEL_NAME}")
 
 vllm_image = (
-    modal.Image.from_registry("nvidia/cuda:12.8.0-devel-ubuntu22.04", add_python="3.12")
-    .entrypoint([])
-    .uv_pip_install(
-        "vllm==0.15.1",
-        "transformers==5.1.0",
-        "huggingface-hub==0.36.0",
-        "flashinfer-python==0.5.2",
+    modal.Image.from_registry(
+        "vllm/vllm-openai:v0.15.1",
+        secret=modal.Secret.from_name("dockerhub"),
+    )
+    .run_commands(
+        "ln -sf /usr/bin/python3.12 /usr/local/bin/python",
+        "ln -sf /usr/bin/python3.12 /usr/local/bin/python3",
+    )
+    .pip_install("transformers==5.1.0")
+    .dockerfile_commands(
+        # Clear the entrypoint. Reference:
+        # https://modal.com/docs/guide/existing-images#entrypoint
+        "ENTRYPOINT []",
     )
     .env(
         {
