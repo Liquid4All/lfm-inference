@@ -14,13 +14,14 @@ app = modal.App(name="lfm-vllm-docker-inference")
 
 vllm_image = (
     modal.Image.from_registry(
-        "vllm/vllm-openai:v0.12.0",
+        "vllm/vllm-openai:v0.15.1",
         secret=modal.Secret.from_name("dockerhub"),
     )
     .run_commands(
         "ln -sf /usr/bin/python3.12 /usr/local/bin/python",
         "ln -sf /usr/bin/python3.12 /usr/local/bin/python3",
     )
+    .pip_install("transformers==5.1.0")
     .dockerfile_commands(
         # Clear the entrypoint. Reference:
         # https://modal.com/docs/guide/existing-images#entrypoint

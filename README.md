@@ -13,15 +13,16 @@ This repository contains examples of deploying inference servers for Liquid Foun
 > [!NOTE]
 > The VL model is not compatible with the public vLLM image yet. The deployment is for text model only for now.
 
-1. Use the latest public vLLM container.
-2. Add these environment variables:
+- Use the latest public vLLM container, version `0.15.1`.
+- Install `transformers` version `5.1.0`.
+- Add these environment variables:
 
 ```
 VLLM_USE_V1=1
 VLLM_USE_FUSED_MOE_GROUPED_TOPK=0
 ```
 
-3. Launch vLLM with the following arguments:
+- Launch vLLM with the following arguments:
 
 ```
 --tensor-parallel-size 1
