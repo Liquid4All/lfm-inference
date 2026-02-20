@@ -34,7 +34,7 @@ vllm_image = (
 hf_cache_vol = modal.Volume.from_name("huggingface-cache", create_if_missing=True)
 vllm_cache_vol = modal.Volume.from_name("vllm-cache", create_if_missing=True)
 
-app = modal.App("lfm-vllm-pypi-inference")
+app = modal.App("lfm-vllm-with-sleep")
 
 N_GPU = 1
 MINUTES = 60

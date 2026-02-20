@@ -9,7 +9,7 @@ pip install modal
 
 ## Use `vLLM` docker image
 
-Alternatively, you can use the pre-built `vLLM` docker image `vllm/vllm-openai` to deploy LFM.
+Use the pre-built `vLLM` docker image `vllm/vllm-openai` to deploy LFM.
 
 Launch command:
 
