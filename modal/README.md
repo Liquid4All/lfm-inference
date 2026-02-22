@@ -15,10 +15,10 @@ Launch command:
 
 ```sh
 # deploy LFM2 8B MoE model
-modal deploy deploy-vllm-docker.py
+modal deploy deploy-vllm.py
 
 # deploy other LFM2 model, MODEL_NAME defaults to LiquidAI/LFM2-8B-A1B
-MODEL_NAME=LiquidAI/<model-slug> modal deploy deploy-vllm-docker.py
+MODEL_NAME=LiquidAI/<model-slug> modal deploy deploy-vllm.py
 ```
 
 See full list of open source LFM models on [Hugging Face](https://huggingface.co/collections/LiquidAI/lfm2).
